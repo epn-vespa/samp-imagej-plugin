@@ -12,17 +12,17 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.mycompany</groupId>
-	<artifactId>Process_Pixels</artifactId>
+	<groupId>org.padc</groupId>
+	<artifactId>SAMP_HUB</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
-	<name>Process Pixels</name>
+	<name>SAMP_HUB</name>
 	<description>A Maven project implementing an ImageJ 1.x plugin.</description>
-	<url>http://mycompany.com/imagej/process-pixels/</url>
-	<inceptionYear>2012</inceptionYear>
+	<url>http://padc.obspm.fr/about/vopdc</url>
+	<inceptionYear>2017</inceptionYear>
 	<organization>
-		<name>My Company</name>
-		<url>http://mycompany.com/</url>
+		<name>Observatory of Paris</name>
+		<url>http://padc.obspm.fr/about/vopdc</url>
 	</organization>
 	<licenses>
 		<license>
@@ -33,16 +33,11 @@
 
 	<developers>
 		<developer>
-			<id>ctrueden</id>
-			<name>Curtis Rueden</name>
-			<url>http://imagej.net/User:Rueden</url>
+			<id>rhaigron</id>
+			<name>Regis Haigron</name>
+			<url></url>
 			<roles>
-				<role>lead</role>
 				<role>developer</role>
-				<role>debugger</role>
-				<role>reviewer</role>
-				<role>support</role>
-				<role>maintainer</role>
 			</roles>
 		</developer>
 	</developers>
@@ -52,29 +47,6 @@
 			<url>http://imagej.net/User:Schindelin</url>
 			<roles><role>founder</role></roles>
 			<properties><id>dscho</id></properties>
-		</contributor>
-		<contributor>
-			<name>Olivier Burri</name>
-			<url>http://imagej.net/User:Oburri</url>
-			<properties><id>lacan</id></properties>
-		</contributor>
-		<contributor>
-			<name>Mark Hiner</name>
-			<url>http://imagej.net/User:Hinerm</url>
-			<properties><id>hinerm</id></properties>
-		</contributor>
-		<contributor>
-			<name>Jules Maselbas</name>
-		</contributor>
-		<contributor>
-			<name>Kota Miura</name>
-			<url>http://imagej.net/User:Miura</url>
-			<properties><id>cmci</id></properties>
-		</contributor>
-		<contributor>
-			<name>Yili Zhao</name>
-			<url>http://imagej.net/User:Panovr</url>
-			<properties><id>panovr</id></properties>
 		</contributor>
 	</contributors>
 
@@ -100,8 +72,8 @@
 	</ciManagement>
 
 	<properties>
-		<package-name>com.mycompany.imagej</package-name>
-		<main-class>com.mycompany.imagej.Process_Pixels</main-class>
+		<package-name>org.padc</package-name>
+		<main-class>org.padc.SAMP_HUB</main-class>
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>My Company, Inc.</license.copyrightOwners>
 	</properties>
@@ -111,5 +83,42 @@
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.astrogrid</groupId>
+			<artifactId>jsamp</artifactId>
+			<version>1.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.nasa.gsfc.heasarc</groupId>
+			<artifactId>nom-tam-fits</artifactId>
+			<version>1.15.2-SNAPSHOT</version>
+		</dependency>		
+	 <dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.12</version>
+	  <scope>test</scope>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.hamcrest</groupId>
+	  <artifactId>hamcrest-core</artifactId>
+	  <version>1.3</version>
+	  <scope>test</scope>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-compress</artifactId>
+	  <version>1.14</version>
+	  <type>jar</type>
+	 </dependency>
 	</dependencies>
+ 	<repositories>
+	     <repository>
+		    <id>sonatype-snapshots</id>
+			    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	<repositories>    
 </project>
