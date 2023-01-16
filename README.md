@@ -1,3 +1,5 @@
+https://voparis-wiki.obspm.fr/display/VES/ImageJ
+
 This is an example Maven project implementing an ImageJ 1.x plugin.
 
 It is intended as an ideal starting point to develop new ImageJ 1.x plugins
