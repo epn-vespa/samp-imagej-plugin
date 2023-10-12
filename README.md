@@ -1,88 +1,44 @@
-This is an example Maven project implementing an ImageJ 1.x plugin.
+https://voparis-wiki.obspm.fr/display/VES/ImageJ
 
-It is intended as an ideal starting point to develop new ImageJ 1.x plugins
-in an IDE of your choice. You can even collaborate with developers using a
-different IDE than you.
+The current version of ImageJ is v 1.53, which is slightly different from v1.51 previously used. The previous plugin no longer works with the current version.
+Version 1.53t (Aug 2022) is used for this test.
+Installation procedure
 
-* In [Eclipse](http://eclipse.org), for example, it is as simple as
-  _File&gt;Import...&gt;Existing Maven Project_.
+    Install a recent version of ImageJ on your computer (see https://imagej.nih.gov/ij/index.html)
+    For Mac OS, the version "bundled with Java 1.8.0_101" is OK (requires OS X 10.8 or later)
+    Plugin files will be distributed on the VESPA github when finalized — https://github.com/epn-vespa
 
-* In [NetBeans](http://netbeans.org), it is even simpler:
-  _File&gt;Open Project_.
+    v 1.53 on Mac is now a bundle (ie an integrated directory which appears as a single file in the Finder, but can be opened from the local menu)
 
-* The same works in [IntelliJ](http://jetbrains.net).
+    Copy file
+      SAMP_HUB-0.1.0-SNAPSHOT.jar
+    in directory ImageJ/plugins  (same version number, but use the Dec 2022 version!)
 
-* If [jEdit](http://jedit.org) is your preferred IDE, you will need the
-  [Maven Plugin](http://plugins.jedit.org/plugins/?MavenPlugin).
+    Copy files (are updates available ?)
+      jsamp-1.3.5.jar
+      nom-tam-fits-1.17.jar
+      commons-compress-1.14.jar
+    in directory ImageJ/plugins/jar
 
-Die-hard command-line developers can use Maven directly by calling `mvn`
-in the project root.
+    Add these lines in file ImageJ/macros/RunAtStartup.ijm:
+    //showMessage("Hi", "SAMP hub is lauching");
+    run ("SAMP"); 
 
-However you build the project, in the end you will have the `.jar` file
-(called *artifact* in Maven speak) in the `target/` subdirectory.
+The plugin can also be used with recent versions of AstroImageJ (test on v5.1.3). The installation is identical.
+Usage
 
-To copy the artifact into the correct place, you can call
-`mvn -Dimagej.app.directory=/path/to/ImageJ.app/`.
-This will not only copy your artifact, but also all the dependencies. Restart
-your ImageJ or call *Help>Refresh Menus* to see your plugin in the menus.
+Launch ImageJ on your machine. The SAMP Hub should start automatically and ImageJ will receive images sent there by other VO applications.  Click on new menu item SAMP > SAMP to start the Hub again if you've closed it manually.
+ImageJ will accept fits, jpeg, png, and tiff images, among others. More fits images are now supported, including multi-extension files. Tiff images are prime products in some EPN-TAP services (from digitized photographic plates, e.g., BDIP) but are not usually viewable in a web browser.
 
-Developing plugins in an IDE is convenient, especially for debugging. To
-that end, the plugin contains a `main` method which sets the `plugins.dir`
-system property (so that the plugin is added to the Plugins menu), starts
-ImageJ, loads an image and runs the plugin. See also
-[this page](https://imagej.net/Debugging#Debugging_plugins_in_an_IDE_.28Netbeans.2C_IntelliJ.2C_Eclipse.2C_etc.29)
-for information how ImageJ makes it easier to debug in IDEs.
+For the time being, ImageJ cannot send back images to the Hub. Results have to be stored on the user machine in a VO compliant format (eg, fits, jpg, or png), and possibly loaded in another environment.
+To Do
 
-Since this project is intended as a starting point for your own
-developments, it is in the public domain.
+- Check functioning with v1.54 (Jan 2023) and various OS
 
-How to use this project as a starting point
-===========================================
+- Support compressed images such as *.fts.bz2 from CLIMSO, which are supported in Aladin
 
-Either
+- Support VOtables in I/O to store analysis results and load them. The current .xls output files can be loaded in TOPCAT as csv format.
 
-* `git clone git://github.com/imagej/example-legacy-plugin`, or
-* unpack https://github.com/imagej/example-legacy-plugin/archive/master.zip
+- Grab the cursor position and send it to / from Aladin via SAMP
 
-Then:
-
-1. Edit the `pom.xml` file. Every entry should be pretty self-explanatory.
-   In particular, change
-    1. the *artifactId* (**NOTE**: should contain a '_' character)
-    2. the *groupId*, ideally to a reverse domain name your organization owns
-    3. the *version* (note that you typically want to use a version number
-       ending in *-SNAPSHOT* to mark it as a work in progress rather than a
-       final version)
-    4. the *dependencies* (read how to specify the correct
-       *groupId/artifactId/version* triplet
-       [here](https://imagej.net/Maven#How_to_find_a_dependency.27s_groupId.2FartifactId.2Fversion_.28GAV.29.3F))
-    5. the *developer* information
-    6. the *scm* information
-2. Remove the `Process_Pixels.java` file and add your own `.java` files
-   to `src/main/java/<package>/` (if you need supporting files -- like icons
-   -- in the resulting `.jar` file, put them into `src/main/resources/`)
-3. Edit `src/main/resources/plugins.config`
-4. Replace the contents of `README.md` with information about your project.
-
-If you cloned the `example-legacy-plugin` repository, you probably want to
-publish the result in your own repository:
-
-1. Call `git status` to verify .gitignore lists all the files (or file
-   patterns) that should be ignored
-2. Call `git add .` and `git add -u` to stage the current files for
-   commit
-3. Call `git commit` or `git gui` to commit the changes
-4. [Create a new GitHub repository](https://github.com/new)
-5. `git remote set-url origin git@github.com:<username>/<projectname>`
-6. `git push origin HEAD`
-
-### Eclipse: To ensure that Maven copies the plugin to your ImageJ folder
-
-1. Go to _Run Configurations..._
-2. Choose _Maven Build_
-3. Add the following parameter:
-    - name: `imagej.app.directory`
-    - value: `/path/to/ImageJ.app/`
-
-This ensures that the final `.jar` file will also be copied to your ImageJ
-plugins folder everytime you run the Maven Build
+- Send back images via SAMP
