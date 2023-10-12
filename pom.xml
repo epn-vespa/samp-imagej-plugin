@@ -58,14 +58,14 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:git://github.com/imagej/example-legacy-plugin</connection>
-		<developerConnection>scm:git:git@github.com:imagej/example-legacy-plugin</developerConnection>
+		<connection>scm:git:git@gitlab.obspm.fr:haigron/samp-imagej-plugin.git</connection>
+		<developerConnection>scm:git:git@gitlab.obspm.fr:haigron/samp-imagej-plugin.git</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/imagej/example-legacy-plugin</url>
+		<url>https://gitlab.obspm.fr/haigron/samp-imagej-plugin</url>
 	</scm>
 	<issueManagement>
-		<system>GitHub Issues</system>
-		<url>https://github.com/imagej/example-legacy-plugin/issues</url>
+		<system>Gitlab Issues</system>
+		<url>https://gitlab.obspm.fr/haigron/samp-imagej-plugin/-/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>None</system>
@@ -94,7 +94,19 @@
 		<dependency>
 			<groupId>gov.nasa.gsfc.heasarc</groupId>
 			<artifactId>nom-tam-fits</artifactId>
-			<version>1.15.2</version>
+			<version>1.17.0</version>
+			<exclusions>
+		              <exclusion>
+                		<groupId>net.jcip</groupId>
+		                <artifactId>jcip-annotations</artifactId>
+			</exclusion>
+				<exclusion>
+                                <groupId>
+					com.google.code.findbugs
+				</groupId>
+                                <artifactId>annotations</artifactId>
+			</exclusion>
+		      </exclusions>
 		</dependency>
 	 	<dependency>
 	  		<groupId>junit</groupId>
