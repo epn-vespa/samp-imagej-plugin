@@ -6,6 +6,9 @@
 package org.padc;
 
 import java.io.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import ij.*;
 import ij.io.*;
 import ij.process.*;
@@ -13,6 +16,7 @@ import ij.measure.*;
 import ij.plugin.FITS_Reader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +25,7 @@ import nom.tam.fits.Data;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
 import nom.tam.fits.Header;
+import nom.tam.fits.ImageData;
 import nom.tam.fits.ImageHDU;
 import nom.tam.fits.header.Bitpix;
 import nom.tam.image.compression.hdu.CompressedImageHDU;
@@ -44,7 +49,6 @@ public class FitsReader extends ImagePlus {
             for (FileInfo fi : fiList) {
                 FileOpener fo = new FileOpener(fi);
                 ImagePlus imp = fo.open(false);
-
                 ImageProcessor ip1 = imp.getProcessor();
                 ip1.flipVertical();
                 setProcessor(name, ip1);
@@ -79,7 +83,7 @@ public class FitsReader extends ImagePlus {
             MultiFitsDecoder fd = new MultiFitsDecoder(url, name);
 
             for (int i = 0; i < nbHdu; i++) {
-                System.out.println("Read Hdu:" + i);
+                System.out.println("Read hdu:" + i);
                 BasicHDU hdu = f.getHDU(i);
                 Header h = hdu.getHeader();
                 long psize = h.getNumberOfPhysicalCards();
@@ -92,10 +96,39 @@ public class FitsReader extends ImagePlus {
                     System.out.println("add info: hdu" + i);
                     fd.addInfos(h, offset);
                 } else if (type != null && type.equals("BINTABLE")) {
-                    System.out.println("Try BINTABLE");
                     CompressedImageHDU compressed = (CompressedImageHDU) hdu;
                     ImageHDU image = compressed.asImageHDU();
-                    fd.addInfos(h, image);
+                    ImageData data = image.getData();
+                    float[][] datas = (float[][]) data.getKernel();
+                    int ny = datas.length;
+                    int nx = datas[0].length;
+                    float min = Float.MAX_VALUE;
+                    float max = Float.MIN_VALUE;
+                    for (int y = 0; y < ny; y++) {
+                        for (int x = 0; x < nx; x++) {
+                            float fv = datas[y][x];
+                            if (fv < min) {
+                                min = fv;
+                            } else if (fv > max) {
+                                max = fv;
+                            }
+                        }
+                    }
+                    System.out.println("Get min:" + min + " max:" + max);
+                    BufferedImage ia = new BufferedImage(nx, ny, BufferedImage.TYPE_INT_RGB);
+                    for (int y = 0; y < ny; y++) {
+                        for (int x = 0; x < nx; x++) {
+                            float fv = datas[y][x];
+                            int v = (int) ((fv - min) / (max - min) * 255.);
+                            ia.setRGB(x, y, (v << 16) | (v << 8) | v);
+                        }
+                    }
+                    ImagePlus ta = new ImagePlus("test", ia);
+                    ImageProcessor ip1 = ta.getProcessor();
+                    ip1.flipVertical();
+                    setProcessor(name, ip1);
+                    // ta.show();
+                    // fd.addInfos(h, image);
                 }
                 Data data = hdu.getData();
                 long dsize = data.getSize();
